@@ -23,7 +23,7 @@ def checkIfPlayerWon(moves):
 
 def botWinsOrBlocks(moves):
     for m_1 in moves:
-        for m_2 in moves:  # compares can be optimized
+        for m_2 in moves:  # comparisons should be optimized
             if m_1 != m_2:
                 if m_1[0:1] == m_2[0:1]:
                     next_move_col = '123'.replace(m_1[1:2], '')
@@ -51,46 +51,32 @@ def botWinsOrBlocks(moves):
 
 def goodMove(moves):
     good_moves = ['', '']
-    print('inicia goodMove')
     for m in moves:
         if len(c.player_moves) == 2 and 'b2' in c.player_moves:
-            print('walla 1')
             player_move_2 = ''.join(c.player_moves).replace('b2', '')
             if player_move_2 in c.corners and m in c.corners:
-                print('walla 2')
                 for next_move in c.corners:
-                    print('walla 3')
                     if next_move in c.possible_moves:
-                        print('walla 4')
                         return next_move
         elif m == 'b2':
-            print('turu 1')
             if {'a1', 'c3'}.issubset(c.possible_moves):
-                print('turu 1 A')
                 return random.choice(['a1', 'c3'])
             elif {'a3', 'c1'}.issubset(c.possible_moves):
-                print('turu 1 B')
                 return random.choice(['a3', 'c1'])
         if m in c.corners:
-            print('turu 2')
             good_moves[0] = 'b2'
             good_moves[1] = 'ac'.replace(m[0:1], '') + '13'.replace(m[1:2], '')
             if {good_moves[0], good_moves[1]}.issubset(c.possible_moves):
-                print('turu 2 A')
                 return random.choice(good_moves)
-        print('turu 3')
         good_moves_cols = '123'.replace(m[1:2], '')
         good_moves[0] = m[0:1] + good_moves_cols[0:1]
         good_moves[1] = m[0:1] + good_moves_cols[1:2]
         if {good_moves[0], good_moves[1]}.issubset(c.possible_moves):
-            print('turu 3 A')
             return random.choice(good_moves)
-        print('turu 4')
         good_moves_lines = 'abc'.replace(m[0:1], '')
         good_moves[0] = good_moves_lines[0:1] + good_moves_lines[0:1]
         good_moves[1] = good_moves_lines[1:2] + good_moves_lines[1:2]
         if {good_moves[0], good_moves[1]}.issubset(c.possible_moves):
-            print('turu 4 A')
             return random.choice(good_moves)
     return random.choice(c.possible_moves)
 
