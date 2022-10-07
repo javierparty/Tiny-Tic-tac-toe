@@ -1,13 +1,10 @@
 import config as c
-import random
+import random as r
 
 
 def checkIfPlayerWon(moves):
-    lines = []
-    cols = []
-    for m in moves:
-        lines.append(m[0:1])
-        cols.append(m[1:2])
+    lines = [m[0:1] for m in moves]
+    cols = [m[1:2] for m in moves]
     for line in ['a', 'b', 'c']:
         if lines.count(line) == 3:
             return True
@@ -60,25 +57,25 @@ def goodMove(moves):
                         return next_move
         elif m == 'b2':
             if {'a1', 'c3'}.issubset(c.possible_moves):
-                return random.choice(['a1', 'c3'])
+                return r.choice(['a1', 'c3'])
             elif {'a3', 'c1'}.issubset(c.possible_moves):
-                return random.choice(['a3', 'c1'])
+                return r.choice(['a3', 'c1'])
         if m in c.corners:
             good_moves[0] = 'b2'
             good_moves[1] = 'ac'.replace(m[0:1], '') + '13'.replace(m[1:2], '')
-            if {good_moves[0], good_moves[1]}.issubset(c.possible_moves):
-                return random.choice(good_moves)
+            if set(good_moves).issubset(c.possible_moves):
+                return r.choice(good_moves)
         good_moves_cols = '123'.replace(m[1:2], '')
         good_moves[0] = m[0:1] + good_moves_cols[0:1]
         good_moves[1] = m[0:1] + good_moves_cols[1:2]
-        if {good_moves[0], good_moves[1]}.issubset(c.possible_moves):
-            return random.choice(good_moves)
+        if set(good_moves).issubset(c.possible_moves):
+            return r.choice(good_moves)
         good_moves_lines = 'abc'.replace(m[0:1], '')
-        good_moves[0] = good_moves_lines[0:1] + good_moves_lines[0:1]
-        good_moves[1] = good_moves_lines[1:2] + good_moves_lines[1:2]
-        if {good_moves[0], good_moves[1]}.issubset(c.possible_moves):
-            return random.choice(good_moves)
-    return random.choice(c.possible_moves)
+        good_moves[0] = good_moves_lines[0:1] + m[1:2]
+        good_moves[1] = good_moves_lines[1:2] + m[1:2]
+        if set(good_moves).issubset(c.possible_moves):
+            return r.choice(good_moves)
+    return r.choice(c.possible_moves)
 
 
 def updateBoard(last_move):

@@ -1,4 +1,4 @@
-import random
+import random as r
 import config as c
 import operations as op
 
@@ -27,7 +27,7 @@ while c.possible_moves:
         op.updateBoard(bot_move)
     if len(c.player_moves) == 1:
         if move == 'b2':
-            bot_move = random.choice(c.corners)
+            bot_move = r.choice(c.corners)
         else:
             bot_move = 'b2'
         op.updateBoard(bot_move)
