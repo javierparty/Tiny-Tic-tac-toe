@@ -11,9 +11,9 @@ def checkIfPlayerWon(moves):
     for col in ['1', '2', '3']:
         if cols.count(col) == 3:
             return True
-    if {'a1', 'b2' 'c3'}.issubset(set(moves)):
+    if {'a1', 'b2' 'c3'}.issubset(moves):
         return True
-    elif {'a3', 'b2', 'c1'}.issubset(set(moves)):
+    elif {'a3', 'b2', 'c1'}.issubset(moves):
         return True
     return False
 
@@ -47,7 +47,7 @@ def botWinsOrBlocks(moves):
 
 
 def goodMove(moves):
-    good_moves = ['', '']
+    good_moves = set()
     for m in moves:
         if len(c.player_moves) == 2 and 'b2' in c.player_moves:
             player_move_2 = ''.join(c.player_moves).replace('b2', '')
@@ -61,31 +61,28 @@ def goodMove(moves):
             elif {'a3', 'c1'}.issubset(c.possible_moves):
                 return r.choice(['a3', 'c1'])
         if m in c.corners:
-            good_moves[0] = 'b2'
-            good_moves[1] = 'ac'.replace(m[0:1], '') + '13'.replace(m[1:2], '')
-            if set(good_moves).issubset(c.possible_moves):
-                return r.choice(good_moves)
-        good_moves_cols = '123'.replace(m[1:2], '')
-        good_moves[0] = m[0:1] + good_moves_cols[0:1]
-        good_moves[1] = m[0:1] + good_moves_cols[1:2]
-        if set(good_moves).issubset(c.possible_moves):
-            return r.choice(good_moves)
-        good_moves_lines = 'abc'.replace(m[0:1], '')
-        good_moves[0] = good_moves_lines[0:1] + m[1:2]
-        good_moves[1] = good_moves_lines[1:2] + m[1:2]
-        if set(good_moves).issubset(c.possible_moves):
-            return r.choice(good_moves)
-    return r.choice(c.possible_moves)
+            good_moves = {'b2', 'ac13'.replace(m[0:1], '').replace(m[1:2], '')}
+            if good_moves.issubset(c.possible_moves):
+                return r.choice(list(good_moves))
+        gm_cols = '123'.replace(m[1:2], '')
+        good_moves = {m[0:1] + gm_cols[0:1], m[0:1] + gm_cols[1:2]}
+        if good_moves.issubset(c.possible_moves):
+            return r.choice(list(good_moves))
+        gm_lines = 'abc'.replace(m[0:1], '')
+        good_moves = {gm_lines[0:1] + m[1:2], gm_lines[1:2] + m[1:2]}
+        if good_moves.issubset(c.possible_moves):
+            return r.choice(list(good_moves))
+    return r.choice(list(c.possible_moves))
 
 
 def updateBoard(last_move):
     if last_move != 'start':
         if len(c.possible_moves) % 2 == 0:
             c.e[last_move] = 'X'
-            c.bot_moves.append(last_move)
+            c.bot_moves.add(last_move)
         else:
             c.e[last_move] = 'O'
-            c.player_moves.append(last_move)
+            c.player_moves.add(last_move)
         c.possible_moves.remove(last_move)
     print(" ")
     print("   1   2   3 ")
