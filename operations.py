@@ -23,24 +23,24 @@ def botWinsOrBlocks(moves):
         for m_2 in moves:  # comparisons should be optimized
             if m_1 != m_2:
                 if m_1[0:1] == m_2[0:1]:
-                    next_move_col = '123'.replace(m_1[1:2], '')
-                    next_move_col = next_move_col.replace(m_2[1:2], '')
-                    next_move = m_1[0:1] + next_move_col
+                    nm_col = '123'.replace(m_1[1:2], '')
+                    nm_col = nm_col.replace(m_2[1:2], '')
+                    next_move = m_1[0:1] + nm_col
                     if next_move in c.possible_moves:
                         return next_move
                 elif m_1[1:2] == m_2[1:2]:
-                    next_move_line = 'abc'.replace(m_1[0:1], '')
-                    next_move_line = next_move_line.replace(m_2[0:1], '')
-                    next_move = next_move_line + m_1[1:2]
+                    nm_line = 'abc'.replace(m_1[0:1], '')
+                    nm_line = nm_line.replace(m_2[0:1], '')
+                    next_move = nm_line + m_1[1:2]
                     if next_move in c.possible_moves:
                         return next_move
                 elif ((m_1 == 'b2' and m_2 in c.corners) or
                         ''.join(sorted(m_1+m_2)) == '13ac'):
-                    next_move_col = '123'.replace(m_1[1:2], '')
-                    next_move_col = next_move_col.replace(m_2[1:2], '')
-                    next_move_line = 'abc'.replace(m_1[0:1], '')
-                    next_move_line = next_move_line.replace(m_2[0:1], '')
-                    next_move = next_move_line + next_move_col
+                    nm_col = '123'.replace(m_1[1:2], '')
+                    nm_col = nm_col.replace(m_2[1:2], '')
+                    nm_line = 'abc'.replace(m_1[0:1], '')
+                    nm_line = nm_line.replace(m_2[0:1], '')
+                    next_move = nm_line + nm_col
                     if next_move in c.possible_moves:
                         return next_move
     return False
@@ -84,9 +84,7 @@ def updateBoard(last_move):
             c.e[last_move] = 'O'
             c.player_moves.add(last_move)
         c.possible_moves.remove(last_move)
-    print(" ")
-    print("   1   2   3 ")
-    print("a _"+c.e['a1']+"_|_"+c.e['a2']+"_|_"+c.e['a3']+"_")
-    print("b _"+c.e['b1']+"_|_"+c.e['b2']+"_|_"+c.e['b3']+"_")
-    print("c  "+c.e['c1']+" | "+c.e['c2']+" | "+c.e['c3']+" ")
-    print(" ")
+    print("\n   1   2   3\n" +
+          "a _" + c.e['a1'] + "_|_" + c.e['a2'] + "_|_" + c.e['a3'] + "_\n" +
+          "b _" + c.e['b1'] + "_|_" + c.e['b2'] + "_|_" + c.e['b3'] + "_\n" +
+          "c  " + c.e['c1'] + " | " + c.e['c2'] + " | " + c.e['c3'] + " \n")

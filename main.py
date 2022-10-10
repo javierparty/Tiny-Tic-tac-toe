@@ -25,7 +25,7 @@ while c.possible_moves:
         else:
             bot_move = op.goodMove(c.bot_moves)
         op.updateBoard(bot_move)
-    if len(c.player_moves) == 1:
+    else:
         if move == 'b2':
             bot_move = r.choice(list(c.corners))
         else:
